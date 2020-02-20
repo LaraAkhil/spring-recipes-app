@@ -18,48 +18,50 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-<title>Recipes List</title>
+<title>Ingredient</title>
 </head>
 <body>
 
 
 	<div class="container-fluid">
-
 		<div class="row justify-content-md-center">
 			<div class="col-md-6">
+
+
+
 				<div class="card" style="margin-top: 20px">
-					<div class="card-header">Recipes!</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-sm">
-								<thead>
-									<tr>
-										<th scope="col">id</th>
-										<th scope="col">description</th>
-										<th scope="col">view</th>
-										<th scope="col">update</th>
-										<th scope="col">delete</th>
-										
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="recipe:${recipes}">
-										<th th:text="${recipe.id}" scope="row">1</th>
-										<td th:text="${recipe.description}">random</td>
-										<td><a th:href="@{'/recipe/' + ${recipe.id}}" href="#">view</a></td>
-										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/update'}" href="#">update</a></td>
-										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/delete'}" href="#">delete</a></td>
-									</tr>
-								</tbody>
-							</table>
+					<div class="card-header">Ingredient
+					
+					<div style="display: inline-block; float: right">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/' + ${ingredient.recipeId}+'/ingredients'}" role="button">Back to Ingredients</a>
 						</div>
+					
+					</div>
+					<div class="card-body">
+					
+					<div class="table-responsive">
+                        <table class="table able-striped table-hover table-sm">
+                            <thead >
+                            <tr>
+                                <th>ID</th>
+                                <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td th:text="${ingredient.id}">334</td>
+                                <td th:text="${ingredient.amount} + ' ' + ${ingredient.unitOfMeasure.getDescription()} + ' ' + ${ingredient.description}">Tasty Goodnees 3</td>
+                            </tr>
+                        </table>
+                    </div>
+					
+					
 					</div>
 				</div>
+
+
 			</div>
 		</div>
-
-
-
 	</div>
 </body>
 </html>

@@ -51,11 +51,22 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	@Transactional
 	public RecipeCommand saveRecipeCommand(RecipeCommand command) {
-		// TODO Auto-generated method stub
-
 		Recipe recipe = recipeRepository.save(recipeCommandToRecipe.convert(command));
 		log.debug("Saved RecipeId:" + recipe.getId());
 		return recipeToRecipeCommand.convert(recipe);
+	}
+
+	@Override
+	@Transactional
+	public RecipeCommand findRecipeCommandById(Long id) {
+		Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
+		Recipe recipe = optionalRecipe.orElse(new Recipe());
+		return recipeToRecipeCommand.convert(recipe);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		recipeRepository.deleteById(id);
 	}
 
 }

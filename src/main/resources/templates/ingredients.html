@@ -18,19 +18,29 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-<title>Recipes List</title>
+<title>Insert title here</title>
 </head>
 <body>
-
-
 	<div class="container-fluid">
-
 		<div class="row justify-content-md-center">
 			<div class="col-md-6">
 				<div class="card" style="margin-top: 20px">
-					<div class="card-header">Recipes!</div>
+					<div class="card-header" >
+					<div style="display: inline-block;" th:text="${recipe.description}+'(Ingredients)'">Ingredients</div>
+					
+					
+					
+					<div style="display: inline-block; float: right">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/' + ${recipe.id}}" role="button">Back to Recipe</a>
+						</div>
+					
+					</div>
+					
+					
+					
 					<div class="card-body">
-						<div class="table-responsive">
+						<div class="table-responsive" th:if="${not #lists.isEmpty(recipe.ingredients)}">
 							<table class="table table-striped table-hover table-sm">
 								<thead>
 									<tr>
@@ -39,27 +49,35 @@
 										<th scope="col">view</th>
 										<th scope="col">update</th>
 										<th scope="col">delete</th>
-										
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="recipe:${recipes}">
-										<th th:text="${recipe.id}" scope="row">1</th>
-										<td th:text="${recipe.description}">random</td>
-										<td><a th:href="@{'/recipe/' + ${recipe.id}}" href="#">view</a></td>
-										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/update'}" href="#">update</a></td>
-										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/delete'}" href="#">delete</a></td>
+									<tr th:each="ing:${recipe.ingredients}">
+										<th th:text="${ing.id}" scope="row">1</th>
+										<td th:text="${ing.amount}+' '+${ing.unitOfMeasure.getDescription()}+' '+${ing.description}">random</td>
+										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/ingredient/'+${ing.id}}" href="#">view</a></td>
+										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/ingredient/'+${ing.id}}+'/update'" href="#">update</a></td>
+										<td><a th:href="@{'/recipe/' + ${recipe.id}+'/ingredient/'+${ing.id}+'/delete'}" href="#">delete</a></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
+
+
+
+
+
+
 				</div>
+
+
+
+
+
+
 			</div>
 		</div>
-
-
-
 	</div>
 </body>
 </html>

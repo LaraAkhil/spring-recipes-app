@@ -26,8 +26,13 @@
 		<div class="row justify-content-md-center">
 			<div class="col-md-6">
 				<div class="card" style="margin-top: 20px">
-					<div class="card-header" th:text="${recipe.description}">Recipe
-						Name</div>
+					<div class="card-header" >
+						 <div style="display: inline-block;" th:text="${recipe.description}">Recipe Name </div>
+						<div style="display: inline-block; float: right">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/' + ${recipe.id} + '/update'}" role="button">Edit</a>
+						</div>
+					</div>
 					<div class="card-body">
 
 
@@ -101,7 +106,18 @@
 				</div>
 
 				<div class="card" style="margin-top: 20px">
-					<div class="card-header">Ingredients</div>
+					<div class="card-header">
+
+
+						Ingredients
+
+						<div style="display: inline-block; float: right">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}"
+								role="button">View</a>
+						</div>
+
+					</div>
 					<div class="card-body">
 						<ul class="list-group list-group-flush"
 							th:each="ing:${recipe.ingredients}">

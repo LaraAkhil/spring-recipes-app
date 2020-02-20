@@ -133,6 +133,12 @@ public class Recipe {
 		return this;
 	}
 
+	public void removeIngredient(Ingredient ingredient) {
+		ingredients.remove(ingredient);
+		ingredient.setRecipe(null);
+
+	}
+
 	public Set<Ingredient> getIngredients() {
 		return ingredients;
 	}
