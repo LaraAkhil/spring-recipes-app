@@ -32,6 +32,11 @@
 							<a class="btn btn-primary" href="#"
 								th:href="@{'/recipe/' + ${recipe.id} + '/update'}" role="button">Edit</a>
 						</div>
+						
+						<div style="display: inline-block;float: right;margin-right: 10px">
+                                <a class="btn btn-primary" href="#"
+                                   th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
+                            </div>
 					</div>
 					<div class="card-body">
 
@@ -41,13 +46,16 @@
 							<div class="col-md-3">
 								<h5>Categories:</h5>
 							</div>
-							<div class="col-md-9">
+							<div class="col-md-3">
 								<ul>
 									<li th:remove="all">cat one</li>
 									<li th:remove="all">cat two</li>
 									<li th:each="category : ${recipe.categories}"
 										th:text="${category.getDescription()}">cat three</li>
 								</ul>
+							</div>
+							<div class="col-md-6">
+							<img alt="image" th:src="@{'/recipe/' + ${recipe.id} + '/recipeImage'}" style="width: 200px;height: 200px">
 							</div>
 						</div>
 						<div class="row">

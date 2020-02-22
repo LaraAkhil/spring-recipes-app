@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import com.akhil.recipes.model.Category;
@@ -20,7 +23,9 @@ import com.akhil.recipes.repositories.RecipeRepository;
 import com.akhil.recipes.repositories.UnitOfMeasureRepository;
 
 @Component
-public class RecipeBootstrap {
+public class RecipeBootstrap implements ResourceLoaderAware {
+
+	private ResourceLoader resourceLoader;
 
 	private final CategoryRepository categoryRepository;
 	private final RecipeRepository recipeRepository;
@@ -35,11 +40,11 @@ public class RecipeBootstrap {
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
-	public void onContextInit() {
+	public void onContextInit() throws Exception {
 		recipeRepository.saveAll(getRecipes());
 	}
 
-	private List<Recipe> getRecipes() {
+	private List<Recipe> getRecipes() throws Exception {
 
 		List<Recipe> recipes = new ArrayList<>(2);
 
@@ -149,6 +154,17 @@ public class RecipeBootstrap {
 		guacRecipe.setServings(4);
 		guacRecipe.setSource("Simply Recipes");
 
+		Resource resource = resourceLoader.getResource("classpath:Guacamole.jpg");
+		byte[] bFile = new byte[resource.getInputStream().available()];
+		resource.getInputStream().read(bFile);
+		Byte[] guaceImage = new Byte[bFile.length];
+		int i = 0;
+		for (Byte b : bFile) {
+			guaceImage[i++] = b;
+		}
+
+		guacRecipe.setImage(guaceImage);
+
 		recipes.add(guacRecipe);
 
 		Recipe tacosRecipe = new Recipe();
@@ -207,9 +223,27 @@ public class RecipeBootstrap {
 		tacosRecipe.setServings(4);
 		tacosRecipe.setSource("Simply Recipes");
 
+		Resource resource1 = resourceLoader.getResource("classpath:chicken_tacos.jpg");
+
+		byte[] b1File = new byte[resource1.getInputStream().available()];
+		resource1.getInputStream().read(b1File);
+		Byte[] tacosImage = new Byte[b1File.length];
+		int j = 0;
+		for (Byte b : b1File) {
+			tacosImage[j++] = b;
+		}
+
+		tacosRecipe.setImage(tacosImage);
+
 		recipes.add(tacosRecipe);
 
 		return recipes;
+
+	}
+
+	@Override
+	public void setResourceLoader(ResourceLoader resourceLoader) {
+		this.resourceLoader = resourceLoader;
 
 	}
 
