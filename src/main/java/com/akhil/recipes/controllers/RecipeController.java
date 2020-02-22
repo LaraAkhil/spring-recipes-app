@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.akhil.recipes.commands.RecipeCommand;
 import com.akhil.recipes.model.Recipe;
+import com.akhil.recipes.service.CategoryService;
 import com.akhil.recipes.service.RecipeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 public class RecipeController {
 
 	private final RecipeService recipeService;
+	private final CategoryService categoryService;
 
-	public RecipeController(RecipeService recipeService) {
+	public RecipeController(RecipeService recipeService, CategoryService categoryService) {
 		super();
 		this.recipeService = recipeService;
+		this.categoryService = categoryService;
 	}
 
 	@GetMapping("/{id}")
@@ -36,6 +39,7 @@ public class RecipeController {
 	@GetMapping("/new")
 	public String getNewRecipe(Model model) {
 		model.addAttribute("recipe", new RecipeCommand());
+		model.addAttribute("cats", categoryService.getAllCategoryCommands());
 		return "recipeform";
 	}
 
@@ -49,6 +53,7 @@ public class RecipeController {
 	@GetMapping("/{id}/update")
 	public String getUpdateRecipe(@PathVariable String id, Model model) {
 		model.addAttribute("recipe", recipeService.findRecipeCommandById(Long.valueOf(id)));
+		model.addAttribute("cats", categoryService.getAllCategoryCommands());
 		return "recipeform";
 	}
 

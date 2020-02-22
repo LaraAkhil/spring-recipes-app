@@ -37,6 +37,11 @@
                                 <a class="btn btn-primary" href="#"
                                    th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
                             </div>
+                            
+                            <div style="display: inline-block;float: right;margin-right: 10px">
+                                <a class="btn btn-primary" href="#"
+                                   th:href="@{'/'}" role="button">Home</a>
+                            </div>
 					</div>
 					<div class="card-body">
 
@@ -55,7 +60,7 @@
 								</ul>
 							</div>
 							<div class="col-md-6">
-							<img alt="image" th:src="@{'/recipe/' + ${recipe.id} + '/recipeImage'}" style="width: 200px;height: 200px">
+							<img alt="no image available" th:src="@{'/recipe/' + ${recipe.id} + '/recipeImage'}" style="width: 200px;height: 200px">
 							</div>
 						</div>
 						<div class="row">

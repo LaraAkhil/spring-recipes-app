@@ -52,6 +52,12 @@ public class ImageController {
 	@GetMapping("/{recipeId}/recipeImage")
 	public void getRecipeImage(@PathVariable String recipeId, HttpServletResponse res) throws IOException {
 
+		if (recipeId.equals("null")) {
+			// todo error
+
+			return;
+		}
+
 		RecipeCommand recipe = recipeService.findRecipeCommandById(Long.valueOf(recipeId));
 		if (recipe.getImage() == null) {
 			// todo error

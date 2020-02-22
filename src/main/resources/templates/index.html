@@ -28,7 +28,12 @@
 		<div class="row justify-content-md-center">
 			<div class="col-md-6">
 				<div class="card" style="margin-top: 20px">
-					<div class="card-header">Recipes!</div>
+					<div class="card-header">Recipes!
+					<div style="display: inline-block; float: right">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/new'}" role="button">New</a>
+						</div>
+					</div>
 					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table table-striped table-hover table-sm">
