@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.akhil.recipes.commands.IngredientCommand;
 import com.akhil.recipes.converters.IngredientCommandToIngredient;
 import com.akhil.recipes.converters.IngredientToIngredientCommand;
+import com.akhil.recipes.exceptions.NotFoundException;
 import com.akhil.recipes.model.Ingredient;
 import com.akhil.recipes.model.Recipe;
 import com.akhil.recipes.repositories.RecipeRepository;
@@ -37,9 +38,17 @@ public class IngredientServiceImpl implements IngredientService {
 	@Override
 	public IngredientCommand findByRecipeIdAndIngId(Long recipeId, Long ingId) {
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+		if (optionalRecipe.isEmpty()) {
+			throw new NotFoundException("recipe not found with id: " + recipeId);
+		}
 		Recipe recipe = optionalRecipe.get();
-		return ingredientToIngredientCommand
-				.convert(recipe.getIngredients().stream().filter(e -> e.getId().equals(ingId)).findFirst().get());
+
+		Optional<Ingredient> optionalIng = recipe.getIngredients().stream().filter(e -> e.getId().equals(ingId))
+				.findFirst();
+		if (optionalIng.isEmpty()) {
+			throw new NotFoundException();
+		}
+		return ingredientToIngredientCommand.convert(optionalIng.get());
 	}
 
 	@Override
@@ -49,9 +58,8 @@ public class IngredientServiceImpl implements IngredientService {
 
 		if (!recipeOptional.isPresent()) {
 
-			// todo toss error if not found!
 			log.error("Recipe not found for id: " + command.getRecipeId());
-			return new IngredientCommand();
+			throw new NotFoundException();
 		} else {
 			Recipe recipe = recipeOptional.get();
 
@@ -101,16 +109,19 @@ public class IngredientServiceImpl implements IngredientService {
 
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
-		if (!optionalRecipe.isPresent()) {
-			// todo do something
-			log.error("recipe not found");
+		if (optionalRecipe.isEmpty()) {
+
+			log.error("recipe not found with id: " + recipeId);
+			throw new NotFoundException();
+
 		} else {
 			Recipe recipe = optionalRecipe.get();
 			Optional<Ingredient> optionalIng = recipe.getIngredients().stream().filter(e -> e.getId().equals(ingId))
 					.findFirst();
-			if (!optionalIng.isPresent()) {
-				// todo do something
+			if (optionalIng.isEmpty()) {
+
 				log.error("ing not found");
+				throw new NotFoundException();
 			} else {
 				Ingredient ing = optionalIng.get();
 				recipe.removeIngredient(ing);

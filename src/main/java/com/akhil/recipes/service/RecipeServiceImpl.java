@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.akhil.recipes.commands.RecipeCommand;
 import com.akhil.recipes.converters.RecipeCommandToRecipe;
 import com.akhil.recipes.converters.RecipeToRecipeCommand;
+import com.akhil.recipes.exceptions.NotFoundException;
 import com.akhil.recipes.model.Recipe;
 import com.akhil.recipes.repositories.RecipeRepository;
 
@@ -43,7 +44,10 @@ public class RecipeServiceImpl implements RecipeService {
 	public Recipe findById(Long id) {
 		Optional<Recipe> opionalRecipe = recipeRepository.findById(id);
 
-		Recipe recipe = opionalRecipe.orElse(new Recipe());
+		if (opionalRecipe.isEmpty()) {
+			throw new NotFoundException("No recipe found with id:" + id);
+		}
+		Recipe recipe = opionalRecipe.get();
 
 		return recipe;
 	}
@@ -60,7 +64,10 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional
 	public RecipeCommand findRecipeCommandById(Long id) {
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
-		Recipe recipe = optionalRecipe.orElse(new Recipe());
+		if (optionalRecipe.isEmpty()) {
+			throw new NotFoundException("No recipe found with id:" + id);
+		}
+		Recipe recipe = optionalRecipe.get();
 		return recipeToRecipeCommand.convert(recipe);
 	}
 

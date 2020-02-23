@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.akhil.recipes.exceptions.NotFoundException;
 import com.akhil.recipes.model.Recipe;
 import com.akhil.recipes.repositories.RecipeRepository;
 
@@ -26,8 +27,7 @@ public class ImageServiceImpl implements ImageService {
 		log.debug("trying to save img for recipeId: " + id);
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
 		if (optionalRecipe.isEmpty()) {
-			// todo do something
-
+			throw new NotFoundException();
 		} else {
 			try {
 				Recipe recipe = optionalRecipe.get();

@@ -28,17 +28,17 @@
 				<div class="card" style="margin-top: 20px">
 					<div class="card-header" >
 						 <div style="display: inline-block;" th:text="${recipe.description}">Recipe Name </div>
-						<div style="display: inline-block; float: right">
+						<div style="display: inline-block; float: right;margin: 5px">
 							<a class="btn btn-primary" href="#"
 								th:href="@{'/recipe/' + ${recipe.id} + '/update'}" role="button">Edit</a>
 						</div>
 						
-						<div style="display: inline-block;float: right;margin-right: 10px">
+						<div style="display: inline-block;float: right;margin: 5px">
                                 <a class="btn btn-primary" href="#"
                                    th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
                             </div>
                             
-                            <div style="display: inline-block;float: right;margin-right: 10px">
+                            <div style="display: inline-block;float: right;margin: 5px">
                                 <a class="btn btn-primary" href="#"
                                    th:href="@{'/'}" role="button">Home</a>
                             </div>
