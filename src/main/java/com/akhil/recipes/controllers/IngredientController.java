@@ -2,6 +2,8 @@ package com.akhil.recipes.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +59,12 @@ public class IngredientController {
 	}
 
 	@PostMapping("/{recipeId}/ingredient")
-	public String saveOrUpdateIngredient(@ModelAttribute IngredientCommand ingredient, @PathVariable String recipeId) {
+	public String saveOrUpdateIngredient(@Validated @ModelAttribute("ingredient") IngredientCommand ingredient,
+			BindingResult bindingResult, @PathVariable String recipeId, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("uomList", unitOfMeasureService.getAllUoms());
+			return "ingredientform";
+		}
 		IngredientCommand savedCommand = ingredientService.saveIngredientCommand(ingredient);
 		return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId();
 	}
@@ -65,7 +72,6 @@ public class IngredientController {
 	@GetMapping("/{recipeId}/ingredient/new")
 	public String newIngredient(@PathVariable String recipeId, Model model) {
 		RecipeCommand recipeCommand = recipeService.findRecipeCommandById(Long.valueOf(recipeId));
-		// todo check here
 		IngredientCommand ingredientCommand = new IngredientCommand();
 		ingredientCommand.setRecipeId(Long.valueOf(recipeId));
 		model.addAttribute("ingredient", ingredientCommand);

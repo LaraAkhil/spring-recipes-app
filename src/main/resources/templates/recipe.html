@@ -124,10 +124,15 @@
 
 						Ingredients
 
-						<div style="display: inline-block; float: right">
+						<div style="display: inline-block; float: right;margin: 5px">
 							<a class="btn btn-primary" href="#"
 								th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}"
 								role="button">View</a>
+						</div>
+						
+						<div style="display: inline-block; float: right;margin: 5px">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/' + ${recipe.id}+'/ingredient/new'}" role="button">New</a>
 						</div>
 
 					</div>

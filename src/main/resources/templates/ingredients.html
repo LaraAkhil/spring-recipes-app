@@ -30,9 +30,14 @@
 					
 					
 					
-					<div style="display: inline-block; float: right">
+					<div style="display: inline-block; float: right;margin: 5px">
 							<a class="btn btn-primary" href="#"
 								th:href="@{'/recipe/' + ${recipe.id}}" role="button">Back to Recipe</a>
+						</div>
+						
+						<div style="display: inline-block; float: right;margin: 5px">
+							<a class="btn btn-primary" href="#"
+								th:href="@{'/recipe/' + ${recipe.id}+'/ingredient/new'}" role="button">Add New</a>
 						</div>
 					
 					</div>
