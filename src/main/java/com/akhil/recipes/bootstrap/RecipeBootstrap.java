@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.Resource;
@@ -23,6 +24,7 @@ import com.akhil.recipes.repositories.RecipeRepository;
 import com.akhil.recipes.repositories.UnitOfMeasureRepository;
 
 @Component
+@Profile("default")
 public class RecipeBootstrap implements ResourceLoaderAware {
 
 	private ResourceLoader resourceLoader;
