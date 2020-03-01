@@ -47,8 +47,9 @@ public class RecipeController {
 
 	@PostMapping("/new")
 	public String postNewRecipe(@Validated @ModelAttribute("recipe") RecipeCommand recipeCommand,
-			BindingResult bindingResult) {
+			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("cats", categoryService.getAllCategoryCommands());
 			return "recipeform";
 		}
 		RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);

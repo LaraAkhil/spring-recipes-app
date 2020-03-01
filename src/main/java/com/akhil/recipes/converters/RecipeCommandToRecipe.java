@@ -75,9 +75,11 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
 			}
 
 		} else {
-			Optional<Recipe> optionalRecipe = recipeRepository.findById(source.getId());
-			if (optionalRecipe.isPresent()) {
-				recipe.setCategories(optionalRecipe.get().getCategories());
+			if (!source.getId().equals(null)) {
+				Optional<Recipe> optionalRecipe = recipeRepository.findById(source.getId());
+				if (optionalRecipe.isPresent()) {
+					recipe.setCategories(optionalRecipe.get().getCategories());
+				}
 			}
 
 		}
